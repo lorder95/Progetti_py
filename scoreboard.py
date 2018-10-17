@@ -39,6 +39,7 @@ class ScoreBoard:
     def Is_empty(self):
         return self.size() == 0
 
+    # Non dovrebbe sollevare un'eccezione se uno score viene scartato perché troppo piccolo e lo scoreboard è pieno?
     def insert(self, s):
         # First Case : The ScoreBoard is not full
 
@@ -72,7 +73,7 @@ class ScoreBoard:
         while (s >= position.element()) and (position._node._next != self._circList._header._next):
             position = self._circList._after(position)
 
-        print("position in uscita" + str(s))
+        #print("position in uscita" + str(s))
 
         if s == position._node._prev._element:
             raise Exception("Score già inserito")
@@ -91,12 +92,12 @@ class ScoreBoard:
                 self._circList.delete(self._circList.first())
             self._circList.add_before(position, s)
 
-    def top(self,i=1):
+    ##Sarebbe meglio se la lista restituita contenesse _Score anziché position
+    def top(self, i = 1):
         if i > 0:
             if self.Is_empty():
-                raise Exception("ScoreBoard Vuoto")
+                raise Exception("ScoreBoard vuoto")
             else:
-
                 if i > self.size():
                     i = self.size()
                 position = self._circList.last()
@@ -107,37 +108,36 @@ class ScoreBoard:
                     position = self._circList._before(position)
 
                 return listaTop
-
         else:
-            raise Exception("Indice non valido")
+            raise Exception("Parametro non valido")
 
-    def last(self,i=1):
+    ##Sarebbe meglio se la lista restituita contenesse _Score anziché position
+    def last(self, i = 1):
         if i > 0:
             if self.Is_empty():
-                raise Exception("ScoreBoard Vuoto")
+                raise Exception("ScoreBoard vuoto")
             else:
-
                 if i > self.size():
                     i = self.size()
                 position = self._circList.first()
-                listaTop = []
+                listaLast = []
 
                 for k in range (i):
-                    listaTop.append(position)
+                    listaLast.append(position)
                     position = self._circList._after(position)
 
-                return listaTop
+                return listaLast
 
         else:
-            raise Exception("Indice non valido")
+            raise Exception("Parametro non valido")
 
-    def merge(self,new):
+    def merge(self, new):
         listMerged  = CircularPositionalList.merge(self._circList, new._circList)
 
         len1 = len(listMerged)
-        #print("lunghezza listmerged: " + str(len1))
 
         if len1 > self._listCapacity:
+            # Cancello _Score in eccesso dalle prime posizioni fino a raggiungere la dimensione corretta
             while len(listMerged) > self._listCapacity:
                 position = listMerged.first()
                 listMerged.delete(position)
@@ -145,84 +145,4 @@ class ScoreBoard:
         self._circList = listMerged
 
     def __str__(self):
-        return "Scoreboard"+str(self._circList)
-
-
-
-
-
-
-### ------ Test -------- ###
-
-scoreBoard = ScoreBoard(3)
-
-score1 = scoreBoard._Score("Marco", 230, "05/09/2018")
-scoreBoard.insert(score1)
-
-score2 = scoreBoard._Score("Peppe", 230, "05/09/2018")
-scoreBoard.insert(score2)
-
-score2 = scoreBoard._Score("Peppe", 230, "05/09/2018")
-scoreBoard.insert(score2)
-
-#score2 = scoreBoard._Score("Toni",280,"05/09/2018")
-#scoreBoard.insert(score2)
-
-score3 = scoreBoard._Score("Ludovica",250,"10/09/2018")
-scoreBoard.insert(score3)
-
-score4 = scoreBoard._Score("XXX",270,"10/09/2018")
-scoreBoard.insert(score4)
-
-#score5 = scoreBoard._Score("Revenger",280,"10/09/2018")
-#scoreBoard.insert(score5)
-
-##Questa insert è importante perchè ci mostra che un elemento viene aggiunto nello scoreboard solo se è maggiore del più piccolo già presente
-#score6 = scoreBoard._Score("XXY",250,"10/09/2018")
-#scoreBoard.insert(score6)
-
-score7 = scoreBoard._Score("ABC",300,"10/09/2018")
-#scoreBoard.insert(score7)
-#print(str(scoreBoard))
-
-score8 = scoreBoard._Score("DFE",250,"10/09/2018")
-#scoreBoard.insert(score8)
-#print(str(scoreBoard))
-
-print("primo scoreboard: " + str(scoreBoard))
-
-'''
-lista=scoreBoard.top(2)
-for e in lista:
-    print(e.element())
-lista=scoreBoard.last(2)
-for e in lista:
-    print(e.element())
-'''
-
-'''
-scoreBoard2 = ScoreBoard(5)
-score10 = scoreBoard2._Score("Gesù",1000,"10/09/2018")
-scoreBoard2.insert(score10)
-
-score11 = scoreBoard2._Score("Giuseppe",1010,"10/09/2018")
-scoreBoard2.insert(score11)
-
-score12 = scoreBoard2._Score("Pasquale",1050,"10/09/2018")
-scoreBoard2.insert(score12)
-
-score13 = scoreBoard2._Score("Francesco",1200,"10/09/2018")
-scoreBoard2.insert(score13)
-
-score14 = scoreBoard2._Score("Maria",1060,"10/09/2018")
-scoreBoard2.insert(score14)
-print("ScoreBoard")
-print(scoreBoard2)
-
-
-score15 = scoreBoard2._Score("Dio",6070594,"10/09/2018")
-scoreBoard2.insert(score15)
-
-scoreBoard.merge(scoreBoard2)
-print("merged: " + str(scoreBoard))
-'''
+        return "Scoreboard" + str(self._circList)

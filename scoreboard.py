@@ -1,4 +1,4 @@
-from circular_positional_list import CircularPositionalList
+from CircularPositionalList import CircularPositionalList
 
 
 class ScoreBoard:

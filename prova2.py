@@ -1,10 +1,13 @@
 from TdP_collections.list.positional_list import PositionalList
-from Progetti.CircularPositionalList import CircularPositionalList
+from CircularPositionalList import CircularPositionalList
 
 list = CircularPositionalList()
 
-list.add_last(1)
-list.add_last(2)
+
+
+print(list.before(list.add_last(1)))
+
+print(list.before(list.add_last(2))._node._element)
 list.add_last(3)
 list.add_last(4)
 

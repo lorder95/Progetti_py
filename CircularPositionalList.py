@@ -265,6 +265,18 @@ class CircularPositionalList(PositionalList):
         for pos in lista:
             yield pos.element()
 
+    def after(self, p):  #Fa il controllo sulla dimensione. Altrimenti richiama after di PositionalList
+        if self._size==1:
+            return None
+        else:
+            return super().after(p)
+
+    def before(self, p):   #Fa il controllo sulla dimensione. Altrimenti richiama before di PositionalList
+        if self._size==1:
+            return None
+        else:
+            return super().before(p)
+
 
 
 

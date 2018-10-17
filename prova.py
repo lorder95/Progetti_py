@@ -1,5 +1,5 @@
 from TdP_collections.list.positional_list import PositionalList
-from Progetti.CircularPositionalList import CircularPositionalList
+from CircularPositionalList import CircularPositionalList
 
 lista = CircularPositionalList()
 

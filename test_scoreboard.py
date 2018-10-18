@@ -2,23 +2,25 @@ from scoreboard import ScoreBoard
 
 scoreBoard = ScoreBoard(3)
 
-score1 = scoreBoard._Score("Marco", 230, "05/09/2018")
+score1 = scoreBoard._Score("Marco", 220, "05/09/2018")
 scoreBoard.insert(score1)
 
-score2 = scoreBoard._Score("Peppe", 230, "05/09/2018")
+score2 = scoreBoard._Score("Peppe", 300, "05/09/2018")
 scoreBoard.insert(score2)
 
-score3 = scoreBoard._Score("Paolo", 230, "05/09/2018")
+score3 = scoreBoard._Score("Paolo", 150, "05/09/2018")
 scoreBoard.insert(score3)
+
+# Lo ScoreBoard è adesso pieno
 
 #score2 = scoreBoard._Score("Toni",280,"05/09/2018")
 #scoreBoard.insert(score2)
 
-score3 = scoreBoard._Score("Ludovica",250,"10/09/2018")
-#scoreBoard.insert(score3)
+score3 = scoreBoard._Score("Ludovica",218,"10/09/2018")
+scoreBoard.insert(score3)
 
-score4 = scoreBoard._Score("XXX",270,"10/09/2018")
-#scoreBoard.insert(score4)
+score4 = scoreBoard._Score("XXX",189,"10/09/2018")
+scoreBoard.insert(score4)
 
 #score5 = scoreBoard._Score("Revenger",280,"10/09/2018")
 #scoreBoard.insert(score5)
@@ -33,13 +35,8 @@ score7 = scoreBoard._Score("ABC",300,"10/09/2018")
 
 score8 = scoreBoard._Score("DFE",250,"10/09/2018")
 #scoreBoard.insert(score8)
-#print(str(scoreBoard))
 
-print("primo scoreboard: " + str(scoreBoard))
-for i, pos in enumerate(scoreBoard.top(3)):
-    print("Player name: " + pos.element()._namePlayer)
-    print("Score: " + str(pos.element()._scorePlayer))
-    print("Date: " + pos.element()._data)
+print(str(scoreBoard))
 
 '''
 lista=scoreBoard.top(2)

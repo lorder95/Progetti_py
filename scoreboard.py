@@ -4,7 +4,6 @@ from CircularPositionalList import CircularPositionalList
 class ScoreBoard:
     # ------------------------------- nested _Score class -------------------------------
     class _Score:
-
         def __init__(self, player, score, dataScore):
             self._namePlayer = player
             self._scorePlayer = score
@@ -29,7 +28,6 @@ class ScoreBoard:
             return "Name Player:" + self._namePlayer +" Score:" + str(self._scorePlayer) +" Data:" + self._data + "\n"
 
     def __init__(self, x = 10):
-
         self._circList = CircularPositionalList()
         self._listCapacity = x
 
@@ -119,13 +117,14 @@ class ScoreBoard:
                 if i > self.size():
                     i = self.size()
                 position = self._circList.last()
-                listaTop = []
+                #listaTop = []
 
-                for k in range (i):
-                    listaTop.append(position)
+                for k in range(i):
+                    #listaTop.append(position)
+                    print(str(position.element()))
                     position = self._circList._before(position)
 
-                return listaTop
+                #return listaTop
         else:
             raise Exception("Parametro non valido")
 
@@ -138,14 +137,14 @@ class ScoreBoard:
                 if i > self.size():
                     i = self.size()
                 position = self._circList.first()
-                listaLast = []
+                #listaLast = []
 
-                for k in range (i):
-                    listaLast.append(position)
+                for k in range(i):
+                    #listaLast.append(position)
+                    print(str(position.element()))
                     position = self._circList._after(position)
 
-                return listaLast
-
+                #return listaLast
         else:
             raise Exception("Parametro non valido")
 

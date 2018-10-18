@@ -18,6 +18,8 @@ class InteractiveConsole():
             print("******ScoreBoard (dim = {0})".format(capacity))
             if self._scoreboard.Is_empty():
                 print("******Attualmente vuoto")
+            elif self._scoreboard.size() == capacity:
+                print("******Attualmente pieno")
             else:
                 print("******Contiene {0} score".format(self._scoreboard.size()))
             print("1) Inserisci uno score")
@@ -27,21 +29,21 @@ class InteractiveConsole():
 
             try:
                 choice = int(input("Inserisci un numero: "))
+
+                if choice == 1:
+                    self._inserisci_score()
+                elif choice == 2:
+                    self._stampa_score(0)
+                elif choice == 3:
+                    self._stampa_score(1)
+                elif choice == 0:
+                    exit(0)
+                else:
+                    print("!! Operazione non implementata !!")
             except ValueError:
                 print("!! Parametro non corretto !!")
 
-            if choice == 1:
-                self._inserisci_score()
-            elif choice == 2:
-                self._stampa_migliori_score()
-            elif choice == 3:
-                self._stampa_peggiori_score()
-            elif choice == 0:
-                exit(0)
-            else:
-                print("!! Operazione non implementata !!")
-
-            input("->Premi un tasto per tornare al menù principale")
+            input("(Premi un tasto per tornare al menù principale)")
 
     def _inserisci_score(self):
         player_name = input("Inserisci il nome del giocatore: ")
@@ -57,45 +59,37 @@ class InteractiveConsole():
             datetime.strptime(player_date, "%d/%m/%Y")
         except ValueError:
             print("!! Immessa data nel formato scorretto !!")
+            player_date = "{:%d/%m/%Y}".format(datetime.now())
+            print("!! Uso data odierna ({0}) !!".format(player_date))
 
         try:
             score = ScoreBoard._Score(player_name, player_score, player_date)
             self._scoreboard.insert(score)
+            print("->Score aggiunto")
         except Exception as e:
-            print(e)
+            print("!! " + str(e) + " !!")
 
-    def _stampa_migliori_score(self):
+    def _stampa_score(self, mode):
         if self._scoreboard.size() == 0:
             print("->Lo ScoreBoard è vuoto...")
         else:
             try:
-                n_score = int(input("Inserisci il numero di score che vuoi stampare: "))
+                n_score = int(input("Inserisci il numero di score che vuoi stampare (default = 1): "))
             except ValueError:
-                print("!! Parametro non corretto !!")
+                n_score = 1
+                print("!! Usato il parametro di default !!")
 
-            listaTop = self._scoreboard.top(n_score)
+            if mode == 0:
+                lista = self._scoreboard.top(n_score)
+            elif mode == 1:
+                lista = self._scoreboard.last(n_score)
 
-            for i, pos in enumerate(listaTop):
+            '''
+            for i, pos in enumerate(lista):
                 print("******* SCORE {0} *******".format(i+1))
                 print("Player name: " + pos.element()._namePlayer)
                 print("Score: " + str(pos.element()._scorePlayer))
                 print("Date: " + pos.element()._data)
-
-    def _stampa_peggiori_score(self):
-        if self._scoreboard.size() == 0:
-            print("->Lo ScoreBoard è vuoto...")
-        else:
-            try:
-                n_score = int(input("Inserisci il numero di score che vuoi stampare: "))
-            except ValueError:
-                print("!! Parametro non corretto !!")
-
-            listaLast = self._scoreboard.last(n_score)
-
-            for i, pos in enumerate(listaLast):
-                print("******* SCORE {0} *******".format(i+1))
-                print("Player name: " + pos.element()._namePlayer)
-                print("Score: " + str(pos.element()._scorePlayer))
-                print("Date: " + pos.element()._data)
+            '''
 
 InteractiveConsole()

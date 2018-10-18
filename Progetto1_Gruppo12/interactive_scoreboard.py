@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from Progetto1_Gruppo.scoreboard import ScoreBoard
+from scoreboard import ScoreBoard
 
 
 class InteractiveConsole():

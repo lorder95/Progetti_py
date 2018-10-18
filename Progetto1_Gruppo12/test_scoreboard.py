@@ -1,4 +1,4 @@
-from Progetto1_Gruppo.scoreboard import ScoreBoard
+from scoreboard import ScoreBoard
 
 scoreBoard = ScoreBoard(3)
 

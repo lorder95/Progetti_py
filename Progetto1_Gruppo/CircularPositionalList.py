@@ -198,8 +198,8 @@ class CircularPositionalList(PositionalList):
 
             lungh-=1
 
-        for element in lista:
-            yield element
+        for elem in lista:
+            yield elem
 
     def _before(self, p):
         if self._size==1:

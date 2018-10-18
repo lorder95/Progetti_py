@@ -10,9 +10,6 @@ class ScoreBoard:
             self._scorePlayer = score
             self._data = dataScore
 
-        def __gt__(self, other):
-            return self._scorePlayer > other._scorePlayer
-
         def __ge__(self, other):
             return self._scorePlayer >= other._scorePlayer
 
@@ -72,10 +69,6 @@ class ScoreBoard:
         elif self.size() == self._listCapacity:
             if s > self._circList.first().element():
                 self._fillScoreBoard(s, True)
-            elif s == self._circList.first().element():
-                raise Exception("Score già inserito")
-            else:
-                raise Exception("Score non abbastanza alto")
 
     #Private method that insert the Score inside the ScoreBoard in the right position.
     #IL parametro bool mi serve perchè a priori non posso cancellare un elemento. Se ad es. lo score già è presente poi non avrei il modo di ripristinare
@@ -90,7 +83,7 @@ class ScoreBoard:
         if position == self._circList.last():
 
             if s == position.element():
-                raise Exception("Score già inserito")
+                raise Exception("Score già presente")
 
             #Handle possible delete
             if bool == True:

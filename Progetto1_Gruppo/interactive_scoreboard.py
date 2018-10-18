@@ -61,8 +61,8 @@ class InteractiveConsole():
         try:
             score = ScoreBoard._Score(player_name, player_score, player_date)
             self._scoreboard.insert(score)
-        except Exception as e:
-            print(e)
+        except:
+            print(" !! Lo score è già stato inserito !! ")
 
     def _stampa_migliori_score(self):
         if self._scoreboard.size() == 0:

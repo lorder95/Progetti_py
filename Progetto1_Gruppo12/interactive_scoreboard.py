@@ -3,7 +3,7 @@ from datetime import datetime
 from scoreboard import ScoreBoard
 
 
-class InteractiveConsole():
+class InteractiveScoreBoard():
 
     def __init__(self):
         print("Creazione ScoreBoard in corso...")
@@ -45,7 +45,7 @@ class InteractiveConsole():
             except ValueError:
                 print("!! Parametro non corretto !!")
 
-            input("(Premi un tasto per tornare al menù principale)")
+            input("(Premi un tasto per tornare al menù principale)\n")
 
     def _inserisci_score(self):
         player_name = input("Inserisci il nome del giocatore: ")
@@ -57,11 +57,12 @@ class InteractiveConsole():
             return
 
         try:
-            player_date = input("Inserisci una data nel formato GG/MM/YYYY: ")
+            today = "{:%d/%m/%Y}".format(datetime.now())
+            player_date = input("Inserisci una data nel formato GG/MM/YYYY (default = {0}): ".format(today))
             datetime.strptime(player_date, "%d/%m/%Y")
         except ValueError:
             print("!! Immessa data nel formato scorretto !!")
-            player_date = "{:%d/%m/%Y}".format(datetime.now())
+            player_date = today
             print("!! Uso data odierna ({0}) !!".format(player_date))
 
         try:
@@ -96,4 +97,4 @@ class InteractiveConsole():
                 print("Date: " + pos.element()._data)
             '''
 
-InteractiveConsole()
+InteractiveScoreBoard()

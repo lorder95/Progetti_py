@@ -1,4 +1,4 @@
-from scoreboard import ScoreBoard
+from Progetto1_Gruppo.scoreboard import ScoreBoard
 
 scoreBoard = ScoreBoard(3)
 
@@ -36,10 +36,6 @@ score8 = scoreBoard._Score("DFE",250,"10/09/2018")
 #print(str(scoreBoard))
 
 print("primo scoreboard: " + str(scoreBoard))
-for i, pos in enumerate(scoreBoard.top(3)):
-    print("Player name: " + pos.element()._namePlayer)
-    print("Score: " + str(pos.element()._scorePlayer))
-    print("Date: " + pos.element()._data)
 
 '''
 lista=scoreBoard.top(2)

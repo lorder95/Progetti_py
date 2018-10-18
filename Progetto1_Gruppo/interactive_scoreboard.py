@@ -1,5 +1,7 @@
 from datetime import datetime
-from scoreboard import ScoreBoard
+
+from Progetto1_Gruppo.scoreboard import ScoreBoard
+
 
 class InteractiveConsole():
 
@@ -65,14 +67,11 @@ class InteractiveConsole():
         try:
             score = ScoreBoard._Score(player_name, player_score, player_date)
             self._scoreboard.insert(score)
-<<<<<<< HEAD:interactive_scoreboard.py
             print("->Score aggiunto")
         except Exception as e:
             print("!! " + str(e) + " !!")
-=======
         except:
             print(" !! Lo score è già stato inserito !! ")
->>>>>>> b7363d35f2fe363533d312c18148dd8d630aeffe:Progetto1_Gruppo/interactive_scoreboard.py
 
     def _stampa_score(self, mode):
         if self._scoreboard.size() == 0:

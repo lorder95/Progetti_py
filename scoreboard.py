@@ -39,47 +39,54 @@ class ScoreBoard:
     def Is_empty(self):
         return self.size() == 0
 
-    # Non dovrebbe sollevare un'eccezione se uno score viene scartato perché troppo piccolo e lo scoreboard è pieno?
     def insert(self, s):
-        # First Case : The ScoreBoard is not full
-
+        # First Case : The ScoreBoard is empty
         if self.Is_empty():
             self._circList.add_first(s)
 
+        # Second Case : The ScoreBoard is not full
         elif self.size() < self._listCapacity:
 
+            # Subcase of the Second Case: The ScoreBoard has only one Score
             if self.size() == 1:
                 position = self._circList.first()
+
                 if s < position.element():
                     self._circList.add_first(s)
+
                 elif s > position.element():
                     self._circList.add_last(s)
+
                 elif s == position.element():
-                    raise Exception("Score già inserito")
+                    raise Exception("Score già presente")
+
                 else:
                     self._circList.add_first(s)
             else:
-                self._fillScoreBoard(s)
+                self._fillScoreBoard(s, False)
 
+        # Third and last case: The ScoreBoard is full
         elif self.size() == self._listCapacity:
-            if s >= self._circList.first().element():
-                if s != self._circList.first().element():
-                    self._circList.delete(self._circList.first())
-                    self._fillScoreBoard(s)
+            if s > self._circList.first().element():
+                self._fillScoreBoard(s, True)
 
-    def _fillScoreBoard(self, s):
+    #Private method that insert the Score inside the ScoreBoard in the right position.
+    #IL parametro bool mi serve perchè a priori non posso cancellare un elemento. Se ad es. lo score già è presente poi non avrei il modo di ripristinare
+    #lo score cancellato.
+    def _fillScoreBoard(self, s ,bool):
         position = self._circList.first()
 
         while (s >= position.element()) and (position._node._next != self._circList._header._next):
             position = self._circList._after(position)
 
-        #print("position in uscita" + str(s))
-
-        if s == position._node._prev._element:
-            raise Exception("Score già inserito")
-
+        #Particul Case
         if position == self._circList.last():
-            if self.size() == len(self):
+
+            if s == position.element():
+                raise Exception("Score già presente")
+
+            #Handle possible delete
+            if bool == True:
                 self._circList.delete(self._circList.first())
             if s > position.element():
                 self._circList.add_last(s)
@@ -87,9 +94,13 @@ class ScoreBoard:
                 self._circList.add_before(position, s)
 
         else:
-            ##Và fatto l'add after sia se s è maggiore che uguale a un elemento
-            if self.size() == len(self):
+            #Case score yet insered
+            if s == position._node._prev._element:
+                raise Exception("Score già presente")
+            #Handle possible delete
+            if bool == True:
                 self._circList.delete(self._circList.first())
+
             self._circList.add_before(position, s)
 
     ##Sarebbe meglio se la lista restituita contenesse _Score anziché position

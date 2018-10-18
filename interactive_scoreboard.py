@@ -3,7 +3,7 @@ from scoreboard import ScoreBoard
 
 class InteractiveConsole():
 
-    def init_console(self):
+    def __init__(self):
         print("Creazione ScoreBoard in corso...")
 
         try:
@@ -31,11 +31,11 @@ class InteractiveConsole():
                 print("!! Parametro non corretto !!")
 
             if choice == 1:
-                self.inserisci_score()
+                self._inserisci_score()
             elif choice == 2:
-                self.stampa_migliori_score()
+                self._stampa_migliori_score()
             elif choice == 3:
-                self.stampa_peggiori_score()
+                self._stampa_peggiori_score()
             elif choice == 0:
                 exit(0)
             else:
@@ -43,7 +43,7 @@ class InteractiveConsole():
 
             input("->Premi un tasto per tornare al menù principale")
 
-    def inserisci_score(self):
+    def _inserisci_score(self):
         player_name = input("Inserisci il nome del giocatore: ")
 
         try:
@@ -64,7 +64,7 @@ class InteractiveConsole():
         except:
             print(" !! Lo score è già stato inserito !! ")
 
-    def stampa_migliori_score(self):
+    def _stampa_migliori_score(self):
         if self._scoreboard.size() == 0:
             print("->Lo ScoreBoard è vuoto...")
         else:
@@ -81,7 +81,7 @@ class InteractiveConsole():
                 print("Score: " + str(pos.element()._scorePlayer))
                 print("Date: " + pos.element()._data)
 
-    def stampa_peggiori_score(self):
+    def _stampa_peggiori_score(self):
         if self._scoreboard.size() == 0:
             print("->Lo ScoreBoard è vuoto...")
         else:
@@ -98,6 +98,4 @@ class InteractiveConsole():
                 print("Score: " + str(pos.element()._scorePlayer))
                 print("Date: " + pos.element()._data)
 
-
-
-InteractiveConsole().init_console()
+InteractiveConsole()

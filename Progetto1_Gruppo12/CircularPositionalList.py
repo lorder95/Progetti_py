@@ -165,18 +165,31 @@ class CircularPositionalList(PositionalList):
         if(lista2.last().element()<lista1.first().element()): #
             return lista2 + lista1
 
-        new_list = lista1.copy()
-        cursor = new_list.first()
+        new_list = CircularPositionalList()
+        cursor = lista1.first()
+        cursor2 = lista2.first()
 
-        for pos in lista2._iter():
-            while(pos.element()>cursor.element() and cursor._node._next is not new_list._header._next):
 
-                cursor = new_list._after(cursor)
 
-            if(pos.element()<cursor.element()):
-                new_list.add_before(cursor,pos.element())
+        i=j=0 # J è lungh di lista2 I è lungh di lista1
+
+        while(i+j<(len(lista1)+len(lista2))):
+
+
+            if( ( j==len(lista2) ) or ( (i< len(lista1)) and cursor.element()<cursor2.element() ) ):
+
+                new_list.add_last(cursor.element())
+
+                cursor = lista1._after(cursor)
+                i+=1
+
             else:
-                new_list.add_after(cursor,pos.element())
+                new_list.add_last(cursor2.element())
+
+                cursor2 = lista2._after(cursor2)
+                j+=1
+
+
 
         return new_list
 

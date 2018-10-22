@@ -44,7 +44,7 @@ for e in lista:
 lista=scoreBoard.last(2)
 for e in lista:
     print(e.element())
-
+'''
 
 scoreBoard2 = ScoreBoard(5)
 score10 = scoreBoard2._Score("Gesù",1000,"10/09/2018")
@@ -70,4 +70,4 @@ scoreBoard2.insert(score15)
 
 scoreBoard.merge(scoreBoard2)
 print("merged: " + str(scoreBoard))
-'''
+

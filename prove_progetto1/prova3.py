@@ -1,5 +1,5 @@
 from TdP_collections.list.positional_list import PositionalList
-from CircularPositionalList import CircularPositionalList
+from Progetti.Progetto1_Gruppo12.CircularPositionalList import CircularPositionalList
 
 list = CircularPositionalList()
 
@@ -16,9 +16,9 @@ list2.add_last(2)
 list2.add_last(6)
 list2.add_last(20)
 
-lista3 = list.merge(list2)
+lista3 = CircularPositionalList.merge(list,list2)
 
-print(lista3)
+print("Prova"+str(lista3))
 
 lista4 = CircularPositionalList()
 lista4.add_last(5)

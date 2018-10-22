@@ -2,7 +2,7 @@ from CircularPositionalList import CircularPositionalList
 
 
 class ScoreBoard:
-    # ------------------------------- classe _Score nidificata -------------------------------
+    # ------------------------------- nested _Score class -------------------------------
     class _Score:
         def __init__(self, player, score, dataScore):
             self._namePlayer = player
@@ -38,14 +38,14 @@ class ScoreBoard:
         return self.size() == 0
 
     def insert(self, s):
-        # Primo Caso: la Scoreboard è vuota
+        # First Case : The ScoreBoard is empty
         if self.Is_empty():
             self._circList.add_first(s)
 
-        # Secondo caso: la Scoreboard non è piena
+        # Second Case : The ScoreBoard is not full
         elif self.size() < self._listCapacity:
 
-            # Sottocaso del secondo caso: la Scoreboard ha un solo Score
+            # Subcase of the Second Case: The ScoreBoard has only one Score
             if self.size() == 1:
                 position = self._circList.first()
 
@@ -63,12 +63,12 @@ class ScoreBoard:
             else:
                 self._fillScoreBoard(s, False)
 
-        # Terzo e ultimo caso: la Scoreboard è piena
+        # Third and last case: The ScoreBoard is full
         elif self.size() == self._listCapacity:
             if s > self._circList.first().element():
                 self._fillScoreBoard(s, True)
 
-    #Metodo privato che inserisce lo Score nella Scoreboard alla giusta posizione.
+    #Private method that insert the Score inside the ScoreBoard in the right position.
     #IL parametro bool mi serve perchè a priori non posso cancellare un elemento. Se ad es. lo score già è presente poi non avrei il modo di ripristinare
     #lo score cancellato.
     def _fillScoreBoard(self, s ,bool):
@@ -77,13 +77,13 @@ class ScoreBoard:
         while (s >= position.element()) and (position._node._next != self._circList._header._next):
             position = self._circList._after(position)
 
-        #Caso particolare
+        #Particul Case
         if position == self._circList.last():
 
             if s == position.element():
                 raise Exception("Score già presente")
 
-            #Gestione di possibile cancellazione
+            #Handle possible delete
             if bool == True:
                 self._circList.delete(self._circList.first())
             if s > position.element():
@@ -92,10 +92,10 @@ class ScoreBoard:
                 self._circList.add_before(position, s)
 
         else:
-            #Caso di Score già inserito
+            #Case score yet insered
             if s == position._node._prev._element:
                 raise Exception("Score già presente")
-            #Gestione di possibile cancellazione
+            #Handle possible delete
             if bool == True:
                 self._circList.delete(self._circList.first())
 

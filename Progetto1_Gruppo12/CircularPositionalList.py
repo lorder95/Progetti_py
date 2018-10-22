@@ -1,11 +1,24 @@
 from TdP_collections.list.positional_list import PositionalList
 
+'''
+La struttura dati implementata deriva da PositionalList (la quale deriva da DoubleLinkedList) e mostra le seguenti peculiarità:
+- doppiamente concatenata: ogni nodo contiene un riferimento sia al nodo successivo (attraverso il campo next) che al precedente (campo prev).
+L'implementazione ha previsto l'utilizzo di due sentinelle (o guardie): un nodo header e un nodo trailer, inseriti rispettivamente
+all'inizio e alla fine della lista, e che non memorizzano elementi. L'utilizzo di questi nodi speciali è stato previsto per
+semplificare la logica delle operazioni implementate (si pensi all'inserimento di un elemento nell'ultima posizione della lista).
+Una lista vuota è inizializzata in maniera tale che il campo next del nodo header punti al trailer mentre il campo prev del nodo trailer
+punti all'header. I succesivi inserimenti/rimozioni vengono effettuati tra una coppia di nodi esistenti.
+- positional list: è stato aggiunto un ulteriore livello di astrazione attraverso l'ADT positional list utile a
+nascondere i dettagli implementativi di un nodo e che meglio descrive la locazione di un nodo all'interno della lista
+- circolare: il campo prev del primo elemento della lista contiene un riferimento all'ultimo nodo della lista
+mentre il campo next dell'ultimo nodo contiene un riferimento al primo.
+'''
 
 class CircularPositionalList(PositionalList):
 
     # Restituisce:
     # - la Position precedente a "p", se un predecessore esiste
-    # - None se "p" non ha un predecessore
+    # - None se "p" non ha un predecessore (la lista ha dimensione 1)
     # - ValueError se "p" non è una Position della lista
     def _before(self, p):
         if self._size == 1:
@@ -15,7 +28,7 @@ class CircularPositionalList(PositionalList):
 
     # Restituisce:
     # - la Position successiva a "p", se un successore esiste
-    # - None se "p" non ha un successore
+    # - None se "p" non ha un successore (la lista ha dimensione 1)
     # - ValueError se "p" non è una Position della lista
     def _after(self, p):
         if self._size == 1:
@@ -29,7 +42,7 @@ class CircularPositionalList(PositionalList):
             return None
         return self._before(p).element()
 
-    # Restituisce l'elemento contenuto nella Position successiva a "p" sfruttando il metodo privato _before
+    # Restituisce l'elemento contenuto nella Position successiva a "p" sfruttando il metodo privato _after
     def after(self, p):
         if self._size == 1:
             return None
@@ -60,8 +73,8 @@ class CircularPositionalList(PositionalList):
             self._size += 1
             return self._make_position(new_node)
         else:
-            new_pos = self._insert_between(e, self._trailer._prev, node)
-            self._header._next = new_pos._node
+            new_pos = self._insert_between(e, self._trailer._prev, node)  # Inserisce "e" tra l'ultimo nodo della lista (predecessore) e il primo (successore)
+            self._header._next = new_pos._node  # L'header deve puntare al nodo contenente "e"
 
             return new_pos
 
@@ -79,8 +92,8 @@ class CircularPositionalList(PositionalList):
             self._size += 1
             return self._make_position(new_node)
         else:
-            new_pos = self._insert_between(e, node, self._header._next)
-            self._trailer._prev = new_pos._node
+            new_pos = self._insert_between(e, node, self._header._next)  # Inserisce "e" tra l'ultimo nodo della lista (predecessore) e il primo (successore)
+            self._trailer._prev = new_pos._node  # Il trailer deve puntare al nodo contenente "e"
             return new_pos
 
     # Aggiunge l'elemento "e" alla lista prima della Position "p" e restituisce la Position corrispondente
@@ -165,7 +178,7 @@ class CircularPositionalList(PositionalList):
             cursor = self._after(cursor)
         yield cursor
 
-    # Restituisce un generatore tramite cui è possibile ottenere gli elementi della lista in ordine (senza modificare l'ordinamento iniziale)
+    # Restituisce un generatore tramite cui è possibile ottenere gli elementi della lista in ordine (senza modificare l'ordinamento della lista)
     def bubblesorted(self):
         lungh = self._size - 1
         swap = True
@@ -185,15 +198,18 @@ class CircularPositionalList(PositionalList):
         for elem in lista:
             yield elem
 
-    # Restituisce una nuova lista ordinata nata dall'unione di "lista1" e "lista2" (supposte ordinate)
+    # Restituisce una nuova lista ordinata nata dalla fusione tra "lista1" e "lista2" (supposte ordinate)
     @staticmethod
     def merge(lista1, lista2):
         if lista1.is_empty() and lista2.is_empty():
             raise ValueError("Le due liste sono vuote")
+
+        # Essendo le due liste ordinate, se l'ultimo elemento di una delle due liste è < del primo elemento dell'altra, è sufficiente concatenarle
         if lista1.last().element() < lista2.first().element():  # casi di liste consecutive
             return lista1 + lista2
         if lista2.last().element() < lista1.first().element():
             return lista2 + lista1
+
         new_list = CircularPositionalList()
         cursor1 = lista1.first()
         cursor2 = lista2.first()
@@ -245,7 +261,7 @@ class CircularPositionalList(PositionalList):
         self._validate(p)
         self.delete(p)
 
-    def __iter__(self):  # iteratore sugli elementi
+    def __iter__(self):  # Iteratore sugli elementi
         for pos in self._iter():
             yield pos.element()
 

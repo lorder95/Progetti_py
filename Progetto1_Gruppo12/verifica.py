@@ -46,6 +46,14 @@ print("\nCreo altre due liste con metodo copy() { LISTA2 e LISTA3 }")
 lista2 = lista.copy()
 lista3 = lista.copy()
 
+print("ED ESEGUO LA REVERSE SU LISTA ")
+lista.reverse()
+print(lista)
+
+print("ED ESEGUO LA REVERSE SU LISTA2 ")
+lista2.reverse()
+print(lista2)
+
 print("ED ESEGUO LA REVERSE SU LISTA3 ")
 lista3.reverse()
 print(lista3)

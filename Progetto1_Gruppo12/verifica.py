@@ -96,3 +96,4 @@ print("Lista disordinata --> "+str(lista))
 print("UTILIZZO GENERATORE:")
 for elem in lista.bubblesorted():
     print(elem)
+

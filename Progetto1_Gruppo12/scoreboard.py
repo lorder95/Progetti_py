@@ -101,7 +101,6 @@ class ScoreBoard:
 
             self._circList.add_before(position, s)
 
-    ##Sarebbe meglio se la lista restituita contenesse _Score anziché position
     def top(self, i = 1):
         if i > 0:
             if self.Is_empty():
@@ -110,18 +109,15 @@ class ScoreBoard:
                 if i > self.size():
                     i = self.size()
                 position = self._circList.last()
-                #listaTop = []
+
 
                 for k in range(i):
-                    #listaTop.append(position)
                     print(str(position.element()))
                     position = self._circList._before(position)
 
-                #return listaTop
         else:
             raise Exception("Parametro non valido")
 
-    ##Sarebbe meglio se la lista restituita contenesse _Score anziché position
     def last(self, i = 1):
         if i > 0:
             if self.Is_empty():

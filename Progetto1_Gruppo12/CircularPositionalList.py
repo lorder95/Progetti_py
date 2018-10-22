@@ -3,6 +3,26 @@ from TdP_collections.list.positional_list import PositionalList
 class CircularPositionalList(PositionalList):
 
 
+    def _before(self, p):
+        if self._size==1:
+            return None
+        else:
+            return super().before(p)
+
+    def _after(self, p):
+        if self._size==1:
+            return None
+        else:
+            return super().after(p)
+
+    def after(self, p): #Fa il controllo sulla dimensione. Altrimenti richiama after di PositionalList
+        return self._after(p).element()
+
+    def before(self, p): #Fa il controllo sulla dimensione. Altrimenti richiama before di PositionalList
+        return self._before(p).element()
+
+    def Is_empty(self):
+        return super().is_empty()
 
     def Is_sorted(self):
 
@@ -11,6 +31,48 @@ class CircularPositionalList(PositionalList):
                 return False
 
         return True
+
+    def add_last(self,e):
+        node = self._trailer._prev
+
+        if(self.is_empty()):
+            new_node =  self._Node(e, None, None)
+            new_node._prev = new_node
+            new_node._next = new_node
+
+            self._trailer._prev = new_node
+            self._header._next = new_node
+            self._size +=1
+            return self._make_position(new_node)
+        else:
+            new_pos = self._insert_between(e, node,self._header._next)
+            self._trailer._prev = new_pos._node
+            return new_pos
+
+    def add_first(self, e):
+
+        node = self._header._next
+
+        if(self.is_empty()):
+
+
+            new_node =  self._Node(e, None, None)
+            new_node._prev = new_node
+            new_node._next = new_node
+
+            self._trailer._prev = new_node
+            self._header._next = new_node
+            self._size +=1
+            return self._make_position(new_node)
+
+
+        else:
+
+            new_pos = self._insert_between(e,self._trailer._prev,node)
+            self._header._next = new_pos._node
+
+
+            return new_pos
 
     def add_after(self, p, e):
 
@@ -36,6 +98,10 @@ class CircularPositionalList(PositionalList):
 
         else: return super().add_before(p,e)
 
+
+
+
+
     def find(self, e):
         if(e is None):
             raise ValueError("E non è un elemento")
@@ -45,6 +111,19 @@ class CircularPositionalList(PositionalList):
                 return pos
 
         return None
+
+    def delete(self, p):
+        original = self._validate(p)
+
+        if(p==self.first()):
+            self._header._next = p._node._next # L'header punta all'elemento dopo il primo
+            self.last()._node._next = p._node._next # L'ultimo elemento della lista puta all'elem dopo il primo
+        elif(p==self.last()):
+            self._trailer._prev = p._node._prev # Trailer punterà il nodo che precede l'ultimo
+            p._node._prev._next = p._node._next # Il campo next dell'ultimo nodo prima di quello elminato punterà al next del vecchio elem( punterà al primo della lista)
+
+        return self._delete_node(original)  # inherited method returns element
+
 
     def clear(self):
         cursor = self.first()
@@ -93,64 +172,6 @@ class CircularPositionalList(PositionalList):
             cursor = self._after(cursor)
         yield cursor
 
-    def __iter__(self): # iteratore sugli elementi
-        for pos in self._iter():
-            yield pos.element()
-
-    def add_last(self,e):
-        node = self._trailer._prev
-
-        if(self.is_empty()):
-            new_node =  self._Node(e, None, None)
-            new_node._prev = new_node
-            new_node._next = new_node
-
-            self._trailer._prev = new_node
-            self._header._next = new_node
-            self._size +=1
-            return self._make_position(new_node)
-        else:
-            new_pos = self._insert_between(e, node,self._header._next)
-            self._trailer._prev = new_pos._node
-            return new_pos
-
-    def add_first(self, e):
-
-        node = self._header._next
-
-        if(self.is_empty()):
-
-
-            new_node =  self._Node(e, None, None)
-            new_node._prev = new_node
-            new_node._next = new_node
-
-            self._trailer._prev = new_node
-            self._header._next = new_node
-            self._size +=1
-            return self._make_position(new_node)
-
-
-        else:
-
-            new_pos = self._insert_between(e,self._trailer._prev,node)
-            self._header._next = new_pos._node
-
-
-            return new_pos
-
-
-    def delete(self, p):
-        original = self._validate(p)
-
-        if(p==self.first()):
-            self._header._next = p._node._next # L'header punta all'elemento dopo il primo
-            self.last()._node._next = p._node._next # L'ultimo elemento della lista puta all'elem dopo il primo
-        elif(p==self.last()):
-            self._trailer._prev = p._node._prev # Trailer punterà il nodo che precede l'ultimo
-            p._node._prev._next = p._node._next # Il campo next dell'ultimo nodo prima di quello elminato punterà al next del vecchio elem( punterà al primo della lista)
-
-        return self._delete_node(original)  # inherited method returns element
 
     @staticmethod
     def merge(lista1, lista2):
@@ -214,23 +235,7 @@ class CircularPositionalList(PositionalList):
         for elem in lista:
             yield elem
 
-    def _before(self, p):
-        if self._size==1:
-            return None
-        else:
-            return super().before(p)
 
-    def _after(self, p):
-        if self._size==1:
-            return None
-        else:
-            return super().after(p)
-
-    def after(self, p): #Fa il controllo sulla dimensione. Altrimenti richiama after di PositionalList
-        return self._after(p).element()
-
-    def before(self, p): #Fa il controllo sulla dimensione. Altrimenti richiama before di PositionalList
-        return self._before(p).element()
 
     # ------------------------------- magic methods -------------------------------
     def __add__(self, other):
@@ -260,6 +265,10 @@ class CircularPositionalList(PositionalList):
     def __delitem__(self,p):
         self._validate(p)
         self.delete(p)
+
+    def __iter__(self): # iteratore sugli elementi
+        for pos in self._iter():
+            yield pos.element()
 
     def __str__(self):
         lista = ""

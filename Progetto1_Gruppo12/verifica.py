@@ -82,6 +82,8 @@ for elem in lista:
     print(elem)
 
 print("***TEST MERGE")
+lista.reverse()
+lista2.reverse()
 print("Lista1 ->"+str(lista))
 print("Lista2 ->"+str(lista2))
 print("LisaMerged  "+str(CircularPositionalList.merge(lista,lista2)))
